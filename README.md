@@ -4,6 +4,8 @@
 
 This is an Amazon-like storefront made using MySQL and Node. The app will take in orders from customers and deplete stock from the store's inventory. 
 
+![AmazonGBM](img/gbmahili_bamazon.gif)
+
 The entry point is the ```bamazonCustoermjs``` and when it is run, this application will first display all of the items available for sale. The list includes the ```ITEM ID, PRODUCT NAME, and the PRICE``` of products for sale.
 
 | ITEM NAME     | PRODUCT NAME    | PRICE  | 
