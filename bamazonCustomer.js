@@ -42,8 +42,6 @@ connection.query(`SELECT item_id, product_name, price FROM products`, function (
     // Ask the user what they want to buy and add them to the cart:
     addToCart();      
 });
-// End the connection
-connection.end();
 
 // Le'ts prompt the user to chose an item and add them to the cart:
 var addToCart = function () {
@@ -52,7 +50,7 @@ var addToCart = function () {
         {
             type: "input",
             name: "item_id",
-            message: "What is the ID of the product you would like to buy?",
+            message: "What is the 'ITEM_ID' of the product you would like to buy?",
             validate: function (value) {
                 if (isNaN(value) === false) {
                     return true;
@@ -72,8 +70,31 @@ var addToCart = function () {
             }
         }
     ]).then(function(answers){
-        console.log(`You would like to buy
-        ITEM_ID: ${answers.item_id}
-        QUANTITY: ${answers.quantity}`);
+        var item_id = answers.item_id;
+        var quantity = answers.quantity;
+        connection.query(`SELECT stock_quantity, price FROM products WHERE \`item_id\` = ${item_id}`, (err, results) => {
+            if (err) throw err;
+            if(results[0].stock_quantity >= quantity){
+                // Update database to reflect the remaining quantity.
+                connection.query(
+                    "UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            stock_quantity: results[0].stock_quantity - quantity
+                        },
+                        {
+                            item_id: item_id
+                        }
+                    ],
+                    function (error) {
+                        if (error) throw error;
+                        console.log(`Your total is :US$${quantity * results[0].price}`);                        
+                    }
+                );
+            }else{
+                console.log("Insufficient quantity!");
+            }; 
+            connection.end();           
+        });        
     });
 };
