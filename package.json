@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/gbmahili/GBM-Amazon#readme",
   "dependencies": {
+    "columnify": "^1.5.4",
     "dotenv": "^4.0.0",
     "inquirer": "^5.0.1",
     "mysql": "^2.15.0"
