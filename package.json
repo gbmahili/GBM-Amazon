@@ -1,0 +1,28 @@
+{
+  "name": "gbm-amazon",
+  "version": "1.0.0",
+  "description": "An Amazon-like storefront created using MySQL and Node. The app will take in orders from customers and deplete stock from the store's inventory. As this app is built, more features will be added such as tracking products sales across the store's departments and then provide a summary of the highest-grossing departments in the store.",
+  "main": "index.js",
+  "scripts": {
+    "test": "run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gbmahili/GBM-Amazon.git"
+  },
+  "keywords": [
+    "Amazon",
+    "Baraka_Amazon",
+    "Mahili"
+  ],
+  "author": "Baraka Mahili",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gbmahili/GBM-Amazon/issues"
+  },
+  "homepage": "https://github.com/gbmahili/GBM-Amazon#readme",
+  "dependencies": {
+    "inquirer": "^5.0.1",
+    "mysql": "^2.15.0"
+  }
+}
