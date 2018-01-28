@@ -1,20 +1,6 @@
-// Get the environment to collect the dbpassword
-require("dotenv").config();
-// Let's get the password module
-var mysql_credentials = require("./keys.js");
-// DB Password
-db_password = mysql_credentials.db_password;
-// Create a connection
-var mysql = require("mysql");
-var connection = mysql.createConnection({
-    host: '127.0.0.1',
-    port : "3306",
-    user: 'root',
-    password: db_password,
-    database: 'bamazon'
-});
-// Connect to DB
-connection.connect();
+var conn = require("./connection.js");
+var connection = conn.connection;
+conn.connectToDB();
 // Running this application will first display all of the items available for sale. 
 // Include the ids, names, and prices of products for sale.
 // Query the DB
