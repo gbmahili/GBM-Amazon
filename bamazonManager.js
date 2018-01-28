@@ -1,10 +1,18 @@
 var conn = require("./connection.js");
 var connection = conn.connection;
 conn.connectToDB();
-
-var viewCurrentInventory = function() {
-    var columnify = require('columnify');
+var columnify = require('columnify');
+// View all products
+var viewCurrentInventory = function() {    
     connection.query(`SELECT * FROM products`, function (error, results, fields) {
+        if (error) throw error;
+        console.log(columnify(results, { columnSplitter: ' | ' }));
+        connection.end();
+    });
+};
+
+var viewLowInventory = function() {
+    connection.query(`SELECT * FROM products WHERE stock_quantity < 5`, function (error, results, fields) {
         if (error) throw error;
         console.log(columnify(results, { columnSplitter: ' | ' }));
         connection.end();
@@ -13,7 +21,6 @@ var viewCurrentInventory = function() {
 
 // View Products For Sales
 var inquirer = require("inquirer");
-
 inquirer.prompt([
     {
         type: "list",
@@ -30,10 +37,12 @@ inquirer.prompt([
             console.log("| --------------------------------------------------|");
             viewCurrentInventory();
             break;
-    
+        case "View Low Inventory":
+            console.log("| --------------------------------------------------|");
+            console.log("|    Hmmm...We are low on the following itms:       |");
+            console.log("| --------------------------------------------------|");
+            viewLowInventory();    
         default:
             break;
     }
 });
-
-
