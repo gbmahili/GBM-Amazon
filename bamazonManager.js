@@ -21,17 +21,16 @@ var viewLowInventory = function() {
     });
 };
 
-
 // Add to inventory:
 var addToInventory = function() {
-    connection.query(`SELECT product_name, stock_quantity  FROM products`, function (error, results, fields) {
+    connection.query(`SELECT product_name FROM products`, function (error, results, fields) {
         if (error) throw error;
         // get a list
         var productName = [];        
         results.forEach(element => {
             productName.push(element.product_name);
         });
-        // Ask which product to add to:
+        // Ask which product to add to the db:
         inquirer.prompt([
             {
                 type: "list",
@@ -53,11 +52,11 @@ var addToInventory = function() {
                 }
             }
         ]).then(function (itemToAddDetails) {
+            // Get the items to be entered into db.
             var additionItemName = itemToAddDetails.productName;
             var additionItemQuantity = parseInt(itemToAddDetails.quantity);
 
-            // Get Current quantity:
-            //var cunnrentItemQuantity;
+            // Query the db to check how many of the selected item there are in the store:
             connection.query(`SELECT stock_quantity  FROM products WHERE ?`, 
                 { 
                     product_name: additionItemName
@@ -65,8 +64,7 @@ var addToInventory = function() {
                 function (error, results, fields) {
                     if (error) throw error;
                     var cunnrentItemQuantity = parseInt(results[0].stock_quantity);
-                    //console.log(cunnrentItemQuantity);
-                    // Update DB:            
+                    // Update DB and add the new amount:
                     connection.query(
                         "UPDATE products SET ? WHERE ?",
                         [
@@ -85,28 +83,127 @@ var addToInventory = function() {
                     connection.end();
                 }
             );
-            // // Update DB:            
-            // connection.query(
-            //     "UPDATE products SET ? WHERE ?",
-            //     [
-            //         {
-            //             stock_quantity: cunnrentItemQuantity + additionItemQuantity
-            //         },
-            //         {
-            //             product_name: additionItemName
-            //         }
-            //     ],
-            //     function (error) {
-            //         if (error) throw error;
-            //         console.log("Quantity Updated!");
-            //     }
-            // );
-            // connection.end();
             
         });
         
     });
  };
+
+ // Add New Product:
+var viewLowInventory = function () {
+    connection.query(`SELECT * FROM products WHERE stock_quantity < 5`, function (error, results, fields) {
+        if (error) throw error;
+        console.log(columnify(results, { columnSplitter: ' | ' }));
+        connection.end();
+    });
+};
+
+// Add to inventory:
+var addNewProduct = function () {
+    connection.query(`SELECT stock_quantity FROM products`, function (error, results, fields) {
+        if (error) throw error;
+        // get a list
+        var productName = [];
+        results.forEach(element => {
+            productName.push(element.product_name);
+        });
+        // Ask which product to add to the db:
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "newProductName",
+                message: "What is the name of the new product?",
+                validate: function (value) {
+                    if (value != "") {
+                        return true;
+                    }
+                    return false;
+                }
+            },
+            {
+                type: "input",
+                name: "departmentName",
+                message: "Which department does it belong to?",
+                validate: function (value) {
+                    if (value != "") {
+                        return true;
+                    }
+                    return false;
+                }
+            },
+            {
+                type: "input",
+                name: "newProductPrice",
+                message: "Now, how much does it cost?",
+                validate: function (value) {
+                    // Check if a number is greater than zero and it is a number
+                    if (Math.sign(value) == 1 && !(Math.sign(value) == NaN)) {
+                        return true;
+                    }
+                    return false;
+                }
+            },
+            {
+                type: "input",
+                name: "newProductQuantity",
+                message: "Finally, how many items are you trying to add?",
+                validate: function (value) {
+                    // Check if a number is greater than zero and it is a number
+                    if (Math.sign(value) == 1 && !(Math.sign(value) == NaN)) {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        ]).then(function (newProductToAddDetails) {
+            // Get the items to be entered into db.
+            var newProductName = newProductToAddDetails.newProductName;
+            var departmentName = newProductToAddDetails.departmentName
+            var newProductPrice = newProductToAddDetails.newProductPrice;
+            var newProductQuantity = newProductToAddDetails.newProductQuantity;
+
+            // Query the db to check how many of the selected item there are in the store:
+            connection.query(`SELECT product_name  FROM products`, function (error, results, fields) {
+                if (error) throw error;
+
+                var product_list = [];
+                results.forEach(element => {
+                    product_list.push(element.product_name);
+                });
+                // Check if we already that type of item
+                if (product_list.indexOf(newProductName) != -1) {
+                    // Product already exisit, ask the manager to update the quanity if needs be:
+                    console.log("| --------------------------------------------------------|");                    
+                    console.log("| P R O D O C T   A L R E A D Y   I N   I N V E N T O R Y |");
+                    console.log("|   Please use the 'Add To Inventory' selection instead!  |");
+                    console.log("| --------------------------------------------------------|");
+                }else{
+                    // Add the new product to the DB if it does not exist:
+                    connection.query(
+                        "INSERT INTO products SET ?",
+                        {
+                            product_name: newProductName,
+                            department_name: departmentName,
+                            price: newProductPrice,
+                            stock_quantity: newProductQuantity
+                        },
+                        function (error) {
+                            if (error) throw error;
+                            console.log("| ---------------------------------------------------------------|");
+                            console.log("| S U C C E S S F U L L Y    A D D E D   T O   I N V E N T O R Y |");
+                            console.log("|   The new product has been added to the inventory. Thank you.  |");
+                            console.log("| ---------------------------------------------------------------|");
+                        }
+                    );
+                }
+                // End Connection                
+                connection.end();
+            });
+
+        });
+
+    });
+};
 
 
 
@@ -142,6 +239,8 @@ inquirer.prompt([
             viewLowInventory();
         case "Add to Inventory":
             addToInventory();
+        case "Add New Product":
+            addNewProduct();
         default:
             break;
     }
