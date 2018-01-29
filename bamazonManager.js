@@ -205,16 +205,7 @@ var addNewProduct = function () {
     });
 };
 
-
-
-
-
-
-
-
-
-
-
+// Run different functions based on manager's need:
 var inquirer = require("inquirer");
 inquirer.prompt([
     {
