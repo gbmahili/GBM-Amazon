@@ -22,3 +22,13 @@ VALUES
 ("Beigel's Braided Challahs - Pack of 2 Challahs", "Grocery", 18.98, 58),
 ("Understanding JavaScript", "Education", 25.99, 9),
 ("Beats Solo3 Wireless On-Ear Headphones - Neighborhood Collection - Asphalt Gray", "Electronics", 299.95, 1000);
+
+
+-- Department Table
+USE bamazon;
+CREATE TABLE departments(
+    department_id INTEGER AUTO_INCREMENT,
+    department_name VARCHAR(255) NOT NULL,
+    over_head_costs DECIMAL(6,2) NOT NULL
+    PRIMARY KEY(department_id)
+);
