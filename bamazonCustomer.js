@@ -58,15 +58,18 @@ var addToCart = function () {
     ]).then(function(answers){
         var item_id = answers.item_id;
         var quantity = answers.quantity;
-        connection.query(`SELECT stock_quantity, price FROM products WHERE \`item_id\` = ${item_id}`, (err, results) => {
+        connection.query(`SELECT stock_quantity, price, product_sales FROM products WHERE \`item_id\` = ${item_id}`, (err, results) => {
             if (err) throw err;
             if(results[0].stock_quantity >= quantity){
-                // Update database to reflect the remaining quantity.
+                // Update database to reflect the remaining quantity and update the products_sales as well...
                 connection.query(
-                    "UPDATE products SET ? WHERE ?",
+                    "UPDATE products SET ?, ? WHERE ?",
                     [
                         {
                             stock_quantity: results[0].stock_quantity - quantity
+                        },
+                        {
+                            product_sales: results[0].product_sales + (quantity * results[0].price)         
                         },
                         {
                             item_id: item_id
@@ -74,7 +77,8 @@ var addToCart = function () {
                     ],
                     function (error) {
                         if (error) throw error;
-                        console.log(`Your total is :US$${quantity * results[0].price}`);                        
+                        console.log(`Your total is :US$${quantity * results[0].price}`);
+                        // Update products table so that the total is 'ADDED' to the current amount in the 'products_sales columns'.
                     }
                 );
             }else{
