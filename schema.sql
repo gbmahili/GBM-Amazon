@@ -29,6 +29,10 @@ USE bamazon;
 CREATE TABLE departments(
     department_id INTEGER AUTO_INCREMENT,
     department_name VARCHAR(255) NOT NULL,
-    over_head_costs DECIMAL(6,2) NOT NULL
+    over_head_costs DECIMAL(6,2) NOT NULL,
     PRIMARY KEY(department_id)
 );
+
+-- Add New Column
+ALTER TABLE products
+ADD COLUMN product_sales DECIMAL(6,2) AFTER stock_quantity;
