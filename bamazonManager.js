@@ -229,8 +229,10 @@ inquirer.prompt([
             console.log("|    Hmmm...We are low on the following items:      |");
             console.log("| --------------------------------------------------|");
             viewLowInventory();
+            break;
         case "Add to Inventory":
             addToInventory();
+            break;
         case "Add New Product":
             addNewProduct();
         default:
