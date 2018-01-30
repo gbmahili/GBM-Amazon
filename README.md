@@ -7,8 +7,9 @@ You will find three type of users. A _customer_, a _manager_ and a _supervisor_.
 
 #### USER #1: Customer View
 
-![BamazonCustomer](img/gbmahili_bamazon.gif)
-
+<kbd>
+    ![BamazonCustomer](img/gbmahili_bamazon.gif)
+</kbd>
 A customer can buy items. This feature is available when you enter through ```bamazonCustomer.js``` and when it is run, this application will first display all of the items available for sale. The list includes the ```ITEM ID, PRODUCT NAME, and the PRICE``` of products for sale.
 
 | ITEM NAME     | PRODUCT NAME    | PRICE  | 
@@ -35,8 +36,9 @@ However, if the store _does_ have enough of the product, the application fulfill
 
 #### USER #2: Manager View
 
-![BamazonManager](img/gbmahili_bamazon_manager.gif)
-
+<kbd>
+    ![BamazonManager](img/gbmahili_bamazon_manager.gif)
+</kbd>
 A manager can also use this application from ```bamazonManager.js``` command. First, they will be presented with a list a set of menu options:
    * View Products for Sale
 
