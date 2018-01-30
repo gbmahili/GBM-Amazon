@@ -24,7 +24,8 @@ inquirer.prompt([
         case "Create New Department":
             console.log("| --------------------------------------------------|");
             console.log("|    Creating new department for you boss           |");
-            createNewDepartment();
+            x= new CreateNewDepartment("Electonics", 1000000);
+            x.isDepartmentInDB();
         default:
             break;
     }
@@ -32,9 +33,38 @@ inquirer.prompt([
 });
 
 var viewProductsByDepartment = function () {
-    console.log("GET ALL PRODUCTS BY DEPARTMENTS");
+    connection.query(`
+        SELECT departments.department_id, departments.department_name, departments.over_head_costs, products.product_sales
+        FROM departments INNER JOIN products
+        ON departments.department_name = products.department_name
+        GROUP BY (department_name)
+        ORDER BY (department_id);
+    `, function(error, results, fields){
+        if(error) throw error;
+        // Log the results using the columnify npm package
+        console.log(columnify(results, 
+            { 
+                columnSplitter: ' | ', 
+                config: { 
+                    department_id: {align: 'center'},
+                    over_head_costs: { align: 'center' },
+                    product_sales: { align: 'center' }
+                } 
+            }
+        ));//End of console.log(results)
+    })
 }
 
-var createNewDepartment = function () {
+// TODO:
+// MAKE THIS A CLASS THAT TAKES IN PARAMETERS, 
+// CHECKS IF THAT DEPARTMENT EXISTS, IF NOT, PUSH THAT DEPARTMENT TO THE DEB
+var CreateNewDepartment = function (department_name, over_head_costs) {
+    this.isDepartmentInDB = function (department_name) {
+        // Check if department exists and return true or fasle:
+        connection.query("SELECT department_name FROM departments", function (error, results, fields) {
+            if(error) throw error;
+            console.log(results);
+        })
+    }
     console.log("Create departments");
 }
