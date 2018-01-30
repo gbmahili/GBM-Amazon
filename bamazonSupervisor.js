@@ -21,21 +21,17 @@ inquirer.prompt([
             console.log("| --------------------------------------------------|");
             viewProductsByDepartment();
             break;
-        case "Create New Department":
-            console.log("| --------------------------------------------------|");
-            console.log("|    Creating new department for you boss           |");
-            x= new CreateNewDepartment("Electonics", 1000000);
-            x.isDepartmentInDB();
+        case "Create New Department":            
+            createNewDepartment();
         default:
             break;
-    }
-    connection.end();
+    }    
 });
 
 var viewProductsByDepartment = function () {
     connection.query(`
         SELECT departments.department_id, departments.department_name, departments.over_head_costs, products.product_sales, (over_head_costs - product_sales) as total_profit
-        FROM departments INNER JOIN products
+        FROM departments LEFT JOIN products
         ON departments.department_name = products.department_name
         GROUP BY (department_name)
         ORDER BY (department_id);
@@ -53,19 +49,76 @@ var viewProductsByDepartment = function () {
                 } 
             }
         ));//End of console.log(results)
+        // Close DB connection
+        connection.end();
     })
-}
+};
 
-// TODO:
-// MAKE THIS A CLASS THAT TAKES IN PARAMETERS, 
-// CHECKS IF THAT DEPARTMENT EXISTS, IF NOT, PUSH THAT DEPARTMENT TO THE DEB
-var CreateNewDepartment = function (department_name, over_head_costs) {
-    this.isDepartmentInDB = function (department_name) {
-        // Check if department exists and return true or fasle:
+// Create new department
+var createNewDepartment = function () {
+    // Ask for the deparment and over_head_cost
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "newDepartmentName",
+            message: "What is the name of the new deparment?",
+            validate: function (value) {
+                if (value != "") {
+                    return true;
+                }
+                return false;
+            }
+        },
+        {
+            type: "input",
+            name: "overHeadCost",
+            message: "What is the over head cost of the new department?",
+            validate: function (value) {
+                // Check if a number is greater than zero and it is a number
+                if (Math.sign(value) == 1 && !(Math.sign(value) == NaN)) {
+                    return true;
+                }
+                return false;
+            }
+        }
+    ]).then(function(newDepartmentDetails) {
+        // Check if department exists:
+        var newDepartmentName = newDepartmentDetails.newDepartmentName;
+        var overHeadCost = newDepartmentDetails.overHeadCost;
+        // Query the database to see if we already have that department name:
         connection.query("SELECT department_name FROM departments", function (error, results, fields) {
-            if(error) throw error;
-            console.log(results);
-        })
-    }
-    console.log("Create departments");
-}
+            if (error) throw error;
+            let currentDepartmentNames = [];
+            results.forEach(element => {
+                currentDepartmentNames.push(element.department_name);
+            });
+            // If we find that index is minus one, means it does not exist, we add it
+            if (currentDepartmentNames.indexOf(newDepartmentName) == -1){
+                // INSERT NEW DEPARTMENT IN THE DB
+                connection.query("INSERT INTO departments SET ?, ?",
+                [{
+                    department_name: newDepartmentName
+                },
+                {
+                    over_head_costs: overHeadCost
+                }],                
+                function(error, results, fields){
+                    if(error) throw error;
+                    console.log("| -----------------------------------------------------------------|");
+                    console.log("| S U C C E S S F U L L Y    A D D E D   T O   D E P A R T M E N T |");
+                    console.log("|    The new department has been created and added! Thank you.     |");
+                    console.log("| -----------------------------------------------------------------|");
+                });
+            }else{
+                // This means the department name already exists
+                console.log("| --------------------------------------------------------|");
+                console.log("| D E P A R T M E N T   A L R E A D Y   E X I S T   S I R |");
+                console.log("|   We already have that deparment in our database! :)    |");
+                console.log("| --------------------------------------------------------|");
+            }
+            // Close DB connection
+            connection.end();
+        });
+        
+    });
+};
