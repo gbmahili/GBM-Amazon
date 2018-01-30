@@ -60,6 +60,8 @@ This is what will happen for each selection:
 
 #### User #3: Supervisor View
 
+![BamazonSupervisor](img/gbmahili_bamazon_supervisor.gif)
+
 Finally, a supervisor can use the same application through the ```bamazonSupervisor``` command.
 A supervisor will be presented with two options:
 
