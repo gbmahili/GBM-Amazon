@@ -34,7 +34,7 @@ inquirer.prompt([
 
 var viewProductsByDepartment = function () {
     connection.query(`
-        SELECT departments.department_id, departments.department_name, departments.over_head_costs, products.product_sales
+        SELECT departments.department_id, departments.department_name, departments.over_head_costs, products.product_sales, (over_head_costs - product_sales) as total_profit
         FROM departments INNER JOIN products
         ON departments.department_name = products.department_name
         GROUP BY (department_name)
@@ -48,7 +48,8 @@ var viewProductsByDepartment = function () {
                 config: { 
                     department_id: {align: 'center'},
                     over_head_costs: { align: 'center' },
-                    product_sales: { align: 'center' }
+                    product_sales: { align: 'center' },
+                    total_profit: { align: 'center' }
                 } 
             }
         ));//End of console.log(results)
