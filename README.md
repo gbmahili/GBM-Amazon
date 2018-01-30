@@ -54,7 +54,7 @@ A manager can also use this application from ```bamazonManager.js``` command. Fi
 
  * When a manager selects `Add New Product`, the app will allow the manager to add a completely new product to the store.
 
-### User #3: Supervisor View
+#### User #3: Supervisor View
 
 Finally, a supervisor can use the same application through the ```bamazonSupervisor``` command.
 A supervisor will be presented with two options:
