@@ -46,13 +46,13 @@ A manager can also use this application from ```bamazonManager.js``` command. Fi
 
    * Add New Product
 
- * When a manager selects `View Products for Sale`, the app will list every available item: the item IDs, names, prices, and quantities.
+* When a manager selects `View Products for Sale`, the app will list every available item: the item IDs, names, prices, and quantities.
 
- * When a manager selects `View Low Inventory`, then the app lists all items with an inventory count lower than five.
+* When a manager selects `View Low Inventory`, then the app lists all items with an inventory count lower than five.
 
- * When a manager selects `Add to Inventory`, then app displays a prompt that will allow him/her to "add more" of any item currently in the store.
+* When a manager selects `Add to Inventory`, then app displays a prompt that will allow him/her to "add more" of any item currently in the store.
 
- * When a manager selects `Add New Product`, the app will allow the manager to add a completely new product to the store.
+* When a manager selects `Add New Product`, the app will allow the manager to add a completely new product to the store.
 
 #### User #3: Supervisor View
 
@@ -63,7 +63,7 @@ A supervisor will be presented with two options:
 
    * Create New Department
 
- * When a supervisor selects `View Product Sales by Department`, the app will display a summarized table in the terminal/bash window.
+* When a supervisor selects `View Product Sales by Department`, the app will display a summarized table in the terminal/bash window.
    The table will look something like this:
 
 | department_id | department_name | over_head_costs | product_sales | total_profit |
@@ -71,6 +71,6 @@ A supervisor will be presented with two options:
 | 01            | Electronics     | 10000           | 20000         | 10000        |
 | 02            | Clothing        | 60000           | 100000        | 40000        |
 
- * When a supervisor selects `Create New Department`, the app will allow the supervisor to add a brand new department, but the app will first check if that department already exist before it can update the database.
+* When a supervisor selects `Create New Department`, the app will allow the supervisor to add a brand new department, but the app will first check if that department already exist before it can update the database.
 
 Comments are welcomed!
