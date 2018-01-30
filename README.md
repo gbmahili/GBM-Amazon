@@ -5,9 +5,9 @@
 This is an Amazon-like storefront made using MySQL and Node. The app will take in orders from customers and deplete stock from the store's inventory.
 You will find three type of users. A _customer_, a _manager_ and a _supervisor_. Here is what you should expect from each user: 
 
-### USER #1: Customer View
+#### USER #1: Customer View
 
-![AmazonGBM](img/gbmahili_bamazon.gif)
+![BamazonCustomer](img/gbmahili_bamazon.gif)
 
 A customer can buy items. This feature is available when you enter through ```bamazonCustomer.js``` and when it is run, this application will first display all of the items available for sale. The list includes the ```ITEM ID, PRODUCT NAME, and the PRICE``` of products for sale.
 
@@ -33,9 +33,9 @@ However, if the store _does_ have enough of the product, the application fulfill
 
    * Once the update goes through, the customer sees the total cost of their purchase.
 
-### USER #2: Manager View
+#### USER #2: Manager View
 
-![AmazonGBM](img/gbmahili_bamazon_manager.gif)
+![BamazonManager](img/gbmahili_bamazon_manager.gif)
 
 A manager can also use this application from ```bamazonManager.js``` command. First, they will be presented with a list a set of menu options:
    * View Products for Sale
