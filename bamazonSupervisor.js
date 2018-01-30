@@ -28,6 +28,7 @@ inquirer.prompt([
     }    
 });
 
+// View a list of products for each deparment
 var viewProductsByDepartment = function () {
     connection.query(`
         SELECT departments.department_id, departments.department_name, departments.over_head_costs, products.product_sales, (over_head_costs - product_sales) as total_profit

@@ -12,19 +12,7 @@ connection.query(`SELECT item_id, product_name, price FROM products`, function (
     console.log("| ------------------------------------------------------------------------------------------------|");
     console.log("|    Hi there! Welcome to Mahili's Amazon-like store. Here is a list of available items:          |");
     console.log("| ------------------------------------------------------------------------------------------------|");
-    console.log(columnify(results, {columnSplitter: ' | '}));
-    // // Log the row header
-    // console.log(" | Item ID | Product Name | Price |");
-    // console.log(" | ------- | ------------ | ----- |");
-    // // Loop through the data and display it
-    // results.forEach(element => {
-    //     if (element.item_id < 10){
-    //         element.item_id = `0${element.item_id}`;
-    //         console.log(` |   ${element.item_id}    | ${element.product_name} | ${element.price} |`);
-    //     }else{
-    //         console.log(` |   ${element.item_id}    | ${element.product_name} | ${element.price} |`);
-    //     };
-    // }); 
+    console.log(columnify(results, {columnSplitter: ' | '}));   
     // Ask the user what they want to buy and add them to the cart:
     addToCart();      
 });

@@ -90,7 +90,8 @@ var addToInventory = function() {
  };
 
  // Add New Product:
-var viewLowInventory = function () {
+
+ var viewLowInventory = function () {
     connection.query(`SELECT * FROM products WHERE stock_quantity < 5`, function (error, results, fields) {
         if (error) throw error;
         console.log(columnify(results, { columnSplitter: ' | ' }));
