@@ -31,7 +31,7 @@ inquirer.prompt([
 // View a list of products for each deparment
 var viewProductsByDepartment = function () {
     connection.query(`
-        SELECT departments.department_id, departments.department_name, departments.over_head_costs, products.product_sales, (over_head_costs - product_sales) as total_profit
+        SELECT departments.department_id, departments.department_name, departments.over_head_costs, SUM(products.product_sales), (over_head_costs - product_sales) as total_profit
         FROM departments LEFT JOIN products
         ON departments.department_name = products.department_name
         GROUP BY (department_name)
